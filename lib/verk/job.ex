@@ -6,7 +6,7 @@ defmodule Verk.Job do
   @default_max_retry_count Confex.get(:verk, :max_retry_count, 25)
   @keys [error_message: nil, failed_at: nil, retry_count: 0, queue: nil, class: nil, args: [],
          jid: nil, finished_at: nil, enqueued_at: nil, retried_at: nil, error_backtrace: nil,
-         max_retry_count: @default_max_retry_count]
+         meta_info: nil, max_retry_count: @default_max_retry_count]
 
   @derive {Poison.Encoder, only: Keyword.keys(@keys)}
   defstruct [:original_json | @keys]
