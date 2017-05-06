@@ -7,7 +7,7 @@ defmodule Verk.WorkersManager do
 
   use GenServer
   require Logger
-  alias Verk.{Events, Job, QueueManager, Log, Time}
+  alias Verk.{Events, Job, QueueManager, Log, Time, SucceedSet}
 
   @default_timeout 1000
 
@@ -187,6 +187,7 @@ defmodule Verk.WorkersManager do
     QueueManager.ack(queue_manager_name, job)
     Log.done(job, start_time, worker)
     demonitor!(monitors, worker, mref)
+    SucceedSet.add(job, Time.now, Verk.Redis)
     notify!(%Events.JobFinished{job: job, result: result, finished_at: Time.now})
   end
 
