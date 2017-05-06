@@ -187,9 +187,9 @@ defmodule Verk.WorkersManager do
     QueueManager.ack(queue_manager_name, job)
     Log.done(job, start_time, worker)
     demonitor!(monitors, worker, mref)
-    now_unix = Time.now |> DateTime.to_unix
-    SucceedSet.add(job, now_unix, Verk.Redis)
-    notify!(%Events.JobFinished{job: job, result: result, finished_at: Time.now})
+    now = Time.now
+    SucceedSet.add(job, DateTime.to_unix(now), Verk.Redis)
+    notify!(%Events.JobFinished{job: %{job | finished_at: now}, result: result, finished_at: now})
   end
 
   defp fail(job, start_time, worker, mref, monitors, queue_manager_name, exception, stacktrace) do
