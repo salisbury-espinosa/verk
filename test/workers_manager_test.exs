@@ -280,7 +280,7 @@ defmodule Verk.WorkersManagerTest do
       pool_name = "pool_name"
       state = %State{ monitors: monitors, pool_name: pool_name, queue_manager_name: queue_manager_name }
       worker = self
-      job = %Verk.Job{}
+      job = %Verk.Job{finished_at: Time.now}
       job_id = "job_id"
       ref = make_ref
 
@@ -331,7 +331,7 @@ defmodule Verk.WorkersManagerTest do
       pool_name = "pool_name"
       state = %State{ monitors: monitors, pool_name: pool_name, queue_manager_name: queue_manager_name }
       worker = self
-      job = %Verk.Job{}
+      job = %Verk.Job{finished_at: Time.now}
       job_id = "job_id"
 
       expect(Verk.QueueManager, :ack, [queue_manager_name, job], :ok)

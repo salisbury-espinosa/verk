@@ -185,7 +185,9 @@ defmodule Verk.WorkersManager do
 
   defp succeed(job, result, start_time, worker, mref, monitors, queue_manager_name) do
     now = Time.now
-    job = %{job | finished_at: now}
+    if is_nil(job.finished_at) do
+      job = %{job | finished_at: now}
+    end
     QueueManager.ack(queue_manager_name, job)
     Log.done(job, start_time, worker)
     demonitor!(monitors, worker, mref)
