@@ -189,7 +189,7 @@ defmodule Verk.WorkersManager do
     QueueManager.ack(queue_manager_name, job)
     Log.done(job, start_time, worker)
     demonitor!(monitors, worker, mref)
-    notify!(%Events.JobFinished{job: job, result: result, finished_at: Time.now})
+    notify!(%Events.JobFinished{job: job, result: result, finished_at: now})
   end
 
   defp fail(job, start_time, worker, mref, monitors, queue_manager_name, exception, stacktrace) do
