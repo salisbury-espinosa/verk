@@ -184,6 +184,8 @@ defmodule Verk.WorkersManager do
   end
 
   defp succeed(job, result, start_time, worker, mref, monitors, queue_manager_name) do
+    now = Time.now
+    job = %{job | finished_at: now}
     QueueManager.ack(queue_manager_name, job)
     Log.done(job, start_time, worker)
     demonitor!(monitors, worker, mref)
